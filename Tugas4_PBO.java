@@ -48,6 +48,7 @@ public class Tugas4_PBO {
                     System.out.println("2. Tampilkan NIM (Descending)");
                     System.out.println("3. Tampilkan Prodi");
                     System.out.println("4. Tampilkan Nama");
+
                     System.out.print("Pilihan Anda: ");
                     int Pilihan2 = input.nextInt();
                     switch (Pilihan2) {
@@ -59,7 +60,7 @@ public class Tugas4_PBO {
                             sortAndDisplay(DataNim, DataNama, DataProdi, false);
                             break;
                         case 3:
-                            sortAndDisplayByProdi(DataNim, DataNama, DataProdi);
+                            displayProdiSummary(DataProdi);
                             break;
                         case 4:
                             sortAndDisplayByName(DataNim, DataNama, DataProdi);
@@ -145,20 +146,29 @@ public class Tugas4_PBO {
         }
     }
 
-    public static void sortAndDisplayByProdi(String[] DataNim, String[] DataNama, String[] DataProdi) {
-        String[] sortedDataProdi = Arrays.copyOf(DataProdi, DataProdi.length);
-        Arrays.sort(sortedDataProdi);
+    public static void displayProdiSummary(String[] DataProdi) {
+        System.out.println("Prodi\t\tJumlah Mahasiswa");
 
-        System.out.println("NIM\t\tNama\t\tProdi");
-        for (int A = 0; A < sortedDataProdi.length; A++) {
-            String prodi = sortedDataProdi[A];
-            for (int i = 0; i < DataProdi.length; i++) {
-                if (DataProdi[i].equals(prodi)) {
-                    System.out.printf("%s\t%-10s\t%s%n", DataNim[i], DataNama[i], DataProdi[i]);
+        // Membuat array untuk menghitung jumlah setiap prodi
+        int[] prodiCount = new int[DataProdi.length];
+
+        for (int i = 0; i < DataProdi.length; i++) {
+            for (int j = 0; j < DataProdi.length; j++) {
+                if (DataProdi[i].equals(DataProdi[j])) {
+                    prodiCount[i]++;
                 }
             }
         }
+
+        // Menampilkan prodi dan jumlahnya
+        for (int i = 0; i < DataProdi.length; i++) {
+            if (i > 0 && DataProdi[i].equals(DataProdi[i - 1])) {
+                continue; // Melewati prodi yang telah ditampilkan sebelumnya
+            }
+            System.out.println(DataProdi[i] + "\t\t\t\t\t" + prodiCount[i]);
+        }
     }
+
 
     public static void sortAndDisplayByName(String[] DataNim, String[] DataNama, String[] DataProdi) {
         String[] sortedDataNama = Arrays.copyOf(DataNama, DataNama.length);
